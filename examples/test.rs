@@ -78,7 +78,7 @@ fn main() {
     for x in rb_header.inner_ref().as_ref()[..44].iter() {
         buf2[j] = *x;
         j = j + 1;
-        println!("{}={},", j, x);
+       // println!("{}={},", j, x);
     }
 
     let data = &buf2;
@@ -90,7 +90,7 @@ fn main() {
         // println!("{}={},",j,x);
     }
     let data1 = &buf3[0..j];
-    println!("{:?}", &buf3[0..j]);
+   // println!("{:?}", &buf3[0..j]);
 
     /* Hashing start */
     let mut hasher = Sha256::new();
