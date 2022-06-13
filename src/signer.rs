@@ -41,10 +41,10 @@ impl<T: AsRef<[u8]> + AsMut<[u8]>> RBHeader<T> {
     #[inline]
     pub fn set_magic_key_size(&mut self, value: u32) {
         let data = self.buffer.as_mut();
-        data[field::MAGIC_KEY_SIZE.start] = ((value >> 24) & 0xFF) as u8;
-        data[field::MAGIC_KEY_SIZE.start + 1] = ((value >> 16) & 0xFF) as u8;
-        data[field::MAGIC_KEY_SIZE.start + 2] = ((value >> 8) & 0xFF) as u8;
-        data[field::MAGIC_KEY_SIZE.start + 3] = (value & 0xFF) as u8;
+        data[field::MAGIC_KEY_SIZE.start + 3] = ((value >> 24) & 0xFF) as u8;
+        data[field::MAGIC_KEY_SIZE.start + 2] = ((value >> 16) & 0xFF) as u8;
+        data[field::MAGIC_KEY_SIZE.start + 1] = ((value >> 8) & 0xFF) as u8;
+        data[field::MAGIC_KEY_SIZE.start + 0] = (value & 0xFF) as u8;
     }
 
     /// Set the version, type, and length field.

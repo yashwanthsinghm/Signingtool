@@ -1,4 +1,5 @@
-use signature::Error as SigningError;
+use sha2::{Digest, Sha256};
+use signature::{Error as SigningError, DigestSigner};
 use p256::ecdsa::{SigningKey, Signature, signature::Signer};
 
 
@@ -71,7 +72,7 @@ pub fn sign_fit(curve: CurveType, digest: &[u8], sk_type: SigningKeyType) -> Res
             let signature = match sk_type {
                 SigningKeyType::NistP256(sk) => {
                     let signature = sk.sign(digest);
-
+                    //let signature = 
                     println!("signature: {:?} \n", signature);
                     signature
                 }
@@ -84,6 +85,28 @@ pub fn sign_fit(curve: CurveType, digest: &[u8], sk_type: SigningKeyType) -> Res
     }
 }
 
+pub fn sign_prehashed(curve: CurveType, digest:Sha256 , sk_type: SigningKeyType) -> Result<Signature>{
+    match curve {
+        #[cfg(feature = "secp256k1")]
+        CurveType::Secp256k1 => {}
+        #[cfg(feature = "nistp256")]
+        CurveType::NistP256 => {
+
+            let signature = match sk_type {
+                SigningKeyType::NistP256(sk) => {
+                    let signature = sk.sign_digest(digest);
+                    //let signature = 
+                    println!("signature: {:?} \n", signature);
+                    signature
+                }
+                _ => return Err(RbSignerError::InvalidKeyType),
+            };
+            
+            Ok(signature)
+        }
+        _ => todo!(),
+    }
+}
 
 /// The result type for rbSigner.
 pub type Result<T> = core::result::Result<T, RbSignerError>;

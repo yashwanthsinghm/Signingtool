@@ -3,6 +3,7 @@ use core::fmt;
 pub mod signer;
 pub mod constants;
 pub mod fitsigner;
+pub mod signatures;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum HIPError {
@@ -44,9 +45,50 @@ pub enum HIPError {
     #[doc(hidden)]
     __Nonexhaustive,
 }
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum RustbootError {
+    /// An operation is not permitted in the current state or an invalid state was reached.
+    InvalidState,
+    /// Firmware authentication failed
+    FwAuthFailed,
+    /// Image integrity verification failed.
+    IntegrityCheckFailed,
+    /// The val of the size field in an image header is not valid
+    InvalidFirmwareSize,
+    /// Type, length, value triple does not exist i.e. tried to parse the header
+    /// for a given a `field_type` but we reached the `end of header`.
+    TLVNotFound,
+    /// The hash output or length is invalid .
+    BadHashValue,
+    /// The value of a field in a param packet was not set
+    FieldNotSet,
+    /// Error while performing an `EC Crypto operation`
+    ECCError,
+    /// The image in a given partition is malformed. Ex:`magic` field or `trailer magic`
+    /// has an invalid value.
+    InvalidImage,
+    /// Something's wrong with the signature stored in the header.
+    BadSignature,
+    /// The value associated with the requested TLV is too large i.e. invalid.
+    InvalidHdrFieldLength,
+    /// Suppose to be unreachable
+    Unreachable,
+    /// Null value
+    NullValue,
+    /// The requested header field has an invalid value.
+    InvalidValue,
+    /// Attempt to reinitialize a global mutable static.  
+    StaticReinit,
+    /// The sector flag value is invalid
+    InvalidSectFlag,
+
+    #[doc(hidden)]
+    __Nonexhaustive,
+}
 
 /// The result type for HIP.
 pub type Result<T> = core::result::Result<T, HIPError>;
+
 
 #[rustfmt::skip]
 impl fmt::Display for HIPError {
