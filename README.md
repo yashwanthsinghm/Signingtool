@@ -90,3 +90,7 @@ rustBoot header RBHeader { buffer: [52, 55, 53, 54, d0, 6, 0, 0, 1, 0, 4, 0, d2,
 
 Result: 
 
+https://user-images.githubusercontent.com/97118799/173413785-968641c1-f436-4c5c-a143-956d7b7be12f.mp4
+
+
+
