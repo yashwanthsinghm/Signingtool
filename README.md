@@ -5,7 +5,7 @@ This tool helps to sign the image using private key and verify using the public 
 Steps to be followed to generate Boot and Update Firmware
 
 
-1. Signed Update firmware
+1. Signing Update firmware
 
 command : cargo run --example SignUpdateImage stm32f411_updtfw.bin
 
