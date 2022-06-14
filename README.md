@@ -82,11 +82,11 @@ rustBoot header RBHeader { buffer: [52, 55, 53, 54, d0, 6, 0, 0, 1, 0, 4, 0, d2,
 
 
 
-3. Placing the BOOT Firmware 0x8020000 and placing the Update Firmware 0X8040000 location of flash respectively using [STM32CubeProgrammer](https://www.st.com/en/development-tools/stm32cubeprog.html).
+3. Here STM32F411 board is used for testting.Place the Boot Firmware at 0x8020000 and place the Update Firmware at 0X8040000 location of flash respectively using [STM32CubeProgrammer](https://www.st.com/en/development-tools/stm32cubeprog.html).
 
-4. Running the Boot loader from [rustBoot](https://github.com/yashwanthsinghm/rustBoot) project.Follow [rustBoot](https://github.com/yashwanthsinghm/rustBoot) to complie and download the binary at 0x8000000 location of flash.
-5. Testing : 1) Green led should blink first which is from [BootFirmware](https://github.com/yashwanthsinghm/rustBoot/tree/main/boards/firmware/stm32f411/boot_fw_blinky_green)
-             2) Red led should blink after green which is from [UpdateFirmware](https://github.com/yashwanthsinghm/rustBoot/tree/main/boards/firmware/stm32f411/updt_fw_blinky_red)
+4. Running the Bootloader from [rustBoot](https://github.com/yashwanthsinghm/rustBoot) project.Follow [rustBoot](https://github.com/yashwanthsinghm/rustBoot) project to complie and download the binary into 0x8000000 location of flash using probe-run.
+5. Testing : 1) Green led should blink first which is code running from [BootFirmware](https://github.com/yashwanthsinghm/rustBoot/tree/main/boards/firmware/stm32f411/boot_fw_blinky_green)
+             2) Red led should blink after green which is code running update from [UpdateFirmware](https://github.com/yashwanthsinghm/rustBoot/tree/main/boards/firmware/stm32f411/updt_fw_blinky_red)
 
 Result: 
 
