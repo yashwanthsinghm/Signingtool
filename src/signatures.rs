@@ -1,6 +1,6 @@
 #![allow(warnings)]
 
-use crate::{Result, RustbootError, HIPError};
+use crate::{Result, RustbootError, SinerError};
 use core::convert::TryFrom;
 use core::ops::Add;
 
@@ -38,7 +38,7 @@ impl NistP256Signature {
             .verify_key
             .verify_digest(
                 digest,
-                &Signature::try_from(signature).map_err(|_| HIPError::SignatureError)?,
+                &Signature::try_from(signature).map_err(|_| SinerError::SignatureError)?,
             )
             .is_ok();
             println!("end of verify");
@@ -65,10 +65,10 @@ where
                 println!(" res from ecc256 {}",res);
                 match res {
                     true => Ok(true),
-                    false => Err(HIPError::SignatureError),
+                    false => Err(SinerError::SignatureError),
                 }
             } else {
-                Err(HIPError::Unrecognized)
+                Err(SinerError::Unrecognized)
             }
         
 
@@ -102,7 +102,7 @@ fn import_pubkey(pk: PubkeyTypes) -> Result<VerifyingKeyTypes> {
             let sec1_encoded_pubkey = EncodedPoint::from_untagged_bytes(untagged_bytes);
             // `from_encoded_point` is fallible i.e. it will check to see if the point (i.e. pubkey) is on the curve.
             let p256_vk = VerifyingKey::from_encoded_point(&sec1_encoded_pubkey)
-                .map_err(|_| HIPError::ECCError);
+                .map_err(|_| SinerError::ECCError);
             Ok(VerifyingKeyTypes::VKeyNistP256(p256_vk?))
         }
         _ => todo!(),

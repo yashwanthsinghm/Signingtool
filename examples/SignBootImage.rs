@@ -68,12 +68,12 @@ fn main() {
 use filetime::FileTime;
 let metadata = fs::metadata("stm32f411_bootfw.bin").unwrap();
 let mtime = FileTime::from_last_modification_time(&metadata).seconds();
-println!("{:x}",mtime);
+//println!("{:x}",mtime);
 // println!("{:x}",mtime);
 //  let mtime1=  mtime.to_be_bytes();
 //  println!("{:x?}",mtime1);
  let mtime2=  mtime.to_le_bytes();
- println!("{:x?}",mtime2);
+ println!("epoch time : {:x?}",mtime2);
  let mut  k = 0;
  for x in mtime2
  {

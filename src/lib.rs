@@ -1,12 +1,12 @@
 use core::fmt;
 
-pub mod signer;
 pub mod constants;
 pub mod fitsigner;
 pub mod signatures;
+pub mod signer;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum HIPError {
+pub enum SinerError {
     /// An operation is not permitted in the current state.
     /// i.e. an invalid HIP state was reached.
     InvalidState,
@@ -87,28 +87,27 @@ pub enum RustbootError {
 }
 
 /// The result type for HIP.
-pub type Result<T> = core::result::Result<T, HIPError>;
-
+pub type Result<T> = core::result::Result<T, SinerError>;
 
 #[rustfmt::skip]
-impl fmt::Display for HIPError {
+impl fmt::Display for SinerError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            &HIPError::InvalidState             => write!(f, "Invalid State, operation not permitted"),
-            &HIPError::Exhausted                => write!(f, "Buffer is empty or full"),
-            &HIPError::Bufferistooshort         => write!(f, "Buffer size is insufficent - too small"),
-            &HIPError::IncorrectHeaderLength    => write!(f, "Malformed packet"),
-            &HIPError::LengthNotMultiple8       => write!(f, "Length has to be multiple of 8"),
-            &HIPError::FieldisAlreadySet        => write!(f, "The field was already set"),
-            &HIPError::FieldNotSet              => write!(f, "The field is not set"),
-            &HIPError::ECCError                 => write!(f, "EC Crypto operation failed"),
-            &HIPError::InvalidEncoding          => write!(f, "Invalid encoding"),
-            &HIPError::SignatureError           => write!(f, "Signature Error"),
-            &HIPError::IncorrectLength          => write!(f, "The length of a buffer is invalid"),
-            &HIPError::MapInsertionOpFailed     => write!(f, "New key, value insertion failed"),
-            &HIPError::Unrecognized             => write!(f, "Unrecognized item"),
-            &HIPError::TimeOut                  => write!(f, "Timeout Error"),
-            &HIPError::__Nonexhaustive          => unreachable!(),
+            &SinerError::InvalidState             => write!(f, "Invalid State, operation not permitted"),
+            &SinerError::Exhausted                => write!(f, "Buffer is empty or full"),
+            &SinerError::Bufferistooshort         => write!(f, "Buffer size is insufficent - too small"),
+            &SinerError::IncorrectHeaderLength    => write!(f, "Malformed packet"),
+            &SinerError::LengthNotMultiple8       => write!(f, "Length has to be multiple of 8"),
+            &SinerError::FieldisAlreadySet        => write!(f, "The field was already set"),
+            &SinerError::FieldNotSet              => write!(f, "The field is not set"),
+            &SinerError::ECCError                 => write!(f, "EC Crypto operation failed"),
+            &SinerError::InvalidEncoding          => write!(f, "Invalid encoding"),
+            &SinerError::SignatureError           => write!(f, "Signature Error"),
+            &SinerError::IncorrectLength          => write!(f, "The length of a buffer is invalid"),
+            &SinerError::MapInsertionOpFailed     => write!(f, "New key, value insertion failed"),
+            &SinerError::Unrecognized             => write!(f, "Unrecognized item"),
+            &SinerError::TimeOut                  => write!(f, "Timeout Error"),
+            &SinerError::__Nonexhaustive          => unreachable!(),
         }
     }
 }

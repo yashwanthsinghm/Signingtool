@@ -1,8 +1,6 @@
-use sha2::{Digest, Sha256};
-use signature::{Error as SigningError, DigestSigner};
-use p256::ecdsa::{SigningKey, Signature, signature::Signer};
-
-
+use p256::ecdsa::{signature::Signer, Signature, SigningKey};
+use sha2::Sha256;
+use signature::{DigestSigner, Error as SigningError};
 
 #[derive(Debug)]
 pub enum CurveType {
@@ -51,7 +49,7 @@ pub fn import_signing_key(curve: CurveType, bytes: &[u8]) -> Result<SigningKeyTy
         #[cfg(feature = "nistp256")]
         CurveType::NistP256 => {
             let sk = SigningKey::from_bytes(bytes).map_err(|v| RbSignerError::KeyError(v))?;
-        
+
             Ok(SigningKeyType::NistP256(sk))
         }
         _ => todo!(),
@@ -62,46 +60,48 @@ pub fn import_signing_key(curve: CurveType, bytes: &[u8]) -> Result<SigningKeyTy
 /// NOTE:
 /// - the image tree blob must be a `rustBoot` compliant fit-image.
 ///
-pub fn sign_fit(curve: CurveType, digest: &[u8], sk_type: SigningKeyType) -> Result<Signature>{
+pub fn sign_fit(curve: CurveType, digest: &[u8], sk_type: SigningKeyType) -> Result<Signature> {
     match curve {
         #[cfg(feature = "secp256k1")]
         CurveType::Secp256k1 => {}
         #[cfg(feature = "nistp256")]
         CurveType::NistP256 => {
-
             let signature = match sk_type {
                 SigningKeyType::NistP256(sk) => {
                     let signature = sk.sign(digest);
-                    //let signature = 
+                    //let signature =
                     println!("signature: {:?} \n", signature);
                     signature
                 }
                 _ => return Err(RbSignerError::InvalidKeyType),
             };
-            
+
             Ok(signature)
         }
         _ => todo!(),
     }
 }
 
-pub fn sign_prehashed(curve: CurveType, digest:Sha256 , sk_type: SigningKeyType) -> Result<Signature>{
+pub fn sign_prehashed(
+    curve: CurveType,
+    digest: Sha256,
+    sk_type: SigningKeyType,
+) -> Result<Signature> {
     match curve {
         #[cfg(feature = "secp256k1")]
         CurveType::Secp256k1 => {}
         #[cfg(feature = "nistp256")]
         CurveType::NistP256 => {
-
             let signature = match sk_type {
                 SigningKeyType::NistP256(sk) => {
                     let signature = sk.sign_digest(digest);
-                    //let signature = 
+                    //let signature =
                     println!("signature: {:?} \n", signature);
                     signature
                 }
                 _ => return Err(RbSignerError::InvalidKeyType),
             };
-            
+
             Ok(signature)
         }
         _ => todo!(),
